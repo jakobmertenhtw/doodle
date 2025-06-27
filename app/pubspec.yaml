@@ -31,6 +31,19 @@ dependencies:
   flutter:
     sdk: flutter
 
+  auth_module: 
+    path: ../auth_module
+  user_module: 
+    path: ../user_module
+  task_module: 
+    path: ../task_module
+  calendar_module: 
+    path: ../calendar_module
+  course_module: 
+    path: ../course_module
+  email_module: 
+    path: ../email_module
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
