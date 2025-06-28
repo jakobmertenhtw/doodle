@@ -10,6 +10,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  bloc: ^9.0.0
   build_runner: ^2.5.4
   dartz: ^0.10.1
   ddd_core_module:
@@ -17,9 +18,10 @@ dependencies:
   firebase_auth: ^5.6.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   freezed: ^3.0.6
   freezed_annotation: ^3.0.0
-  google_sign_in: ^7.0.0
+  get_it: ^8.0.3
 
 dev_dependencies:
   flutter_lints: ^5.0.0

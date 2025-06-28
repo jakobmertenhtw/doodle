@@ -1,17 +1,17 @@
 
 
-import 'package:auth_module/domain/entities/nutzer.dart';
+import 'package:auth_module/domain/entities/user.dart' as user;
 import 'package:auth_module/domain/value_objects/email_addresse.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNutzerMapper {
 
-  static Nutzer? toDomain(User? user) {
-    return user == null || user.email == null
+  static user.User? toDomain(User? u) {
+    return u == null || u.email == null
         ? null
-        : Nutzer(
-            user.uid, 
-            EmailAddresse(user.email!),
+        : user.User(
+            u.uid, 
+            EmailAddresse(u.email!),
           );
   }
 

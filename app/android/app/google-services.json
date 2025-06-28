@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32360697519",
+    "project_id": "doodle-4aa98",
+    "storage_bucket": "doodle-4aa98.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32360697519:android:0c8693c2313d119f800e5a",
+        "android_client_info": {
+          "package_name": "com.example.doodle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ5vK0TyWsTNNn5mxbQDYyGd7pfUqnK1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

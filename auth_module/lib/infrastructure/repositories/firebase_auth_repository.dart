@@ -1,6 +1,6 @@
 
 
-import 'package:auth_module/domain/entities/nutzer.dart';
+import 'package:auth_module/domain/entities/user.dart' as user;
 import 'package:auth_module/domain/failures/auth_failures.dart';
 import 'package:auth_module/domain/repositories/auth_repository.dart';
 import 'package:auth_module/domain/value_objects/email_addresse.dart';
@@ -8,22 +8,20 @@ import 'package:auth_module/domain/value_objects/passwort.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 
 
 class FirebaseAuthRepository implements AuthRepository {
 
   final FirebaseAuth firebaseAuth;
-  final GoogleSignIn googleSignIn;
   
-  FirebaseAuthRepository(this.firebaseAuth, this.googleSignIn);
+  FirebaseAuthRepository(this.firebaseAuth);
   
   @override
-  Future<Option<Nutzer>> getCurrentUser() async {
+  Future<Option<user.User>> getCurrentUser() async {
     final firebaseUser = firebaseAuth.currentUser;
     if (firebaseUser != null && firebaseUser.email != null) {
-      return some(Nutzer(firebaseUser.uid, EmailAddresse(firebaseUser.email!)));
+      return some(user.User(firebaseUser.uid, EmailAddresse(firebaseUser.email!)));
     } else {
       return none();
     }
@@ -59,7 +57,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() async {
     await Future.wait([
-      googleSignIn.signOut(),
+      //googleSignIn.signOut(),
       firebaseAuth.signOut(),
     ]);
   }
