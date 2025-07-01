@@ -1,0 +1,168 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "app",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "app (profile mode)",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "app (release mode)",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "auth_module",
+            "cwd": "auth_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "auth_module (profile mode)",
+            "cwd": "auth_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "auth_module (release mode)",
+            "cwd": "auth_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "calendar_module",
+            "cwd": "calendar_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "calendar_module (profile mode)",
+            "cwd": "calendar_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "calendar_module (release mode)",
+            "cwd": "calendar_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "course_module",
+            "cwd": "course_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "course_module (profile mode)",
+            "cwd": "course_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "course_module (release mode)",
+            "cwd": "course_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ddd_core_module",
+            "cwd": "ddd_core_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ddd_core_module (profile mode)",
+            "cwd": "ddd_core_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ddd_core_module (release mode)",
+            "cwd": "ddd_core_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "email_module",
+            "cwd": "email_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "email_module (profile mode)",
+            "cwd": "email_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "email_module (release mode)",
+            "cwd": "email_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "task_module",
+            "cwd": "task_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "task_module (profile mode)",
+            "cwd": "task_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "task_module (release mode)",
+            "cwd": "task_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "user_module",
+            "cwd": "user_module",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "user_module (profile mode)",
+            "cwd": "user_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "user_module (release mode)",
+            "cwd": "user_module",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

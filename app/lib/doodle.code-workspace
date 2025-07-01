@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../ddd_core_module"
+		},
+		{
+			"path": "../../calendar_module"
+		},
+		{
+			"path": "../../email_module"
+		},
+		{
+			"path": "../../user_module"
+		},
+		{
+			"path": "../../task_module"
+		},
+		{
+			"path": "../../course_module"
+		},
+		{
+			"path": "../../auth_module"
+		}
+	],
+	"settings": {}
+}

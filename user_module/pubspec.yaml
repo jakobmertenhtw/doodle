@@ -10,12 +10,18 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+
+  auth_module:
+    path: ../auth_module
+
+  bloc: ^9.0.0
   build_runner: ^2.5.4
   dartz: ^0.10.1
   ddd_core_module:
     path: ../ddd_core_module
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   freezed: ^3.0.6
   freezed_annotation: ^3.0.0
 
