@@ -30,17 +30,30 @@ environment:
 dependencies:
   auth_module:
     path: ../auth_module
+  bloc: ^9.0.0
+  build_runner: ^2.5.4
   calendar_module:
     path: ../calendar_module
   course_module:
     path: ../course_module
   cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
+  dio: ^5.8.0+1
   email_module:
     path: ../email_module
+  equatable: ^2.0.7
   firebase_auth: ^5.6.0
   firebase_core: ^3.14.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
+  freezed: ^3.0.6
+  freezed_annotation: ^3.0.0
+  get_it: ^8.0.3
+  hive: ^2.2.3
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.5
+  path_provider: ^2.1.5
   task_module:
     path: ../task_module
   user_module:

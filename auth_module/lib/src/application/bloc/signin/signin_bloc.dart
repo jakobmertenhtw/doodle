@@ -22,7 +22,6 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         ),
       );
     });
-
     on<PasswordChanged>((event, emit) {
       emit(
         state.copyWith(
@@ -32,10 +31,8 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         ),
       );
     });
-
     on<SignInSubmit>((event, emit) async {
       emit(state.copyWith(isSubmitting: true));
-
       if (!state.email.isValid() || !state.password.isValid()) {
         emit(
           state.copyWith(
@@ -46,12 +43,10 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         );
         return;
       }
-
       final result = await repository.signInUserWithEmailAndPassword(
         state.email,
         state.password,
       );
-
       emit(
         state.copyWith(
           authFailureOrSuccessOption: some(result),

@@ -9,6 +9,11 @@ abstract class ValueObject<T> {
   bool isValid() {
     return value.isRight();
   }
+
+  T getOrCrash() {
+    return value.fold((_) => throw Error(), (value) => value);
+  }
+
   @override
   int get hashCode => value.hashCode;
   @override

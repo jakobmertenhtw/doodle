@@ -10,6 +10,5 @@ abstract class AuthRepository {
   Future<Option<User>> getCurrentUser();
   Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(Email email, Password passwort);
   Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(Email email, Password passwort);
-  Future<Either<AuthFailure, Unit>> signInWithGoogle();
   Future<void> signOut();
 }

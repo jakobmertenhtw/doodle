@@ -52,10 +52,14 @@ class _SigninFormState extends State<SigninForm> {
         return Scaffold(
           appBar: AppBar(title: Text("Sign In")),
           body: Form(
+            autovalidateMode: state.showErrorMessage == true ? AutovalidateMode.always : AutovalidateMode.disabled,
             child: Column(
               children: [
                 TextFormField(
                   controller: _emailController,
+                  validator: (value) {
+                    return state.email.value.fold((failure) => failure.failure, (_) => null);
+                  },
                   onChanged: (_) {
                     BlocProvider.of<SigninBloc>(
                       context,
@@ -66,6 +70,9 @@ class _SigninFormState extends State<SigninForm> {
                 SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
+                  validator: (value) {
+                    
+                  },
                   onChanged: (_) {
                     BlocProvider.of<SigninBloc>(
                       context,
