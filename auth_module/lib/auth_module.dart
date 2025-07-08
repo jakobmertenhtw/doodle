@@ -1,6 +1,8 @@
 
 
-export './src/api/auth_module.dart';
-export './src/presentation/screens/signin_screen.dart';
-export './src/presentation/screens/signup_screen.dart';
-export './src/presentation/widgets/signout_button.dart';
+
+export 'src/domain/entities/auth_object.dart';
+export 'src/domain/value_objects/email.dart';
+export 'src/domain/value_objects/password.dart';
+export 'src/domain/repositories/auth_repository.dart';
+export 'src/domain/failures/auth_failures.dart';

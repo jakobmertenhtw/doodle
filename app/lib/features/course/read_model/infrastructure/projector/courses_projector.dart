@@ -5,7 +5,6 @@ import 'dart:async';
 
 import 'package:course_module/course_module.dart';
 import 'package:doodle/features/course/command_model/infrastructure/event_stores/event_store.dart';
-import 'package:doodle/features/course/command_model/infrastructure/event_stores/in_memory_course_event_store.dart';
 import 'package:doodle/features/course/read_model/application/dto/course_dto.dart';
 import 'package:doodle/features/course/read_model/application/query_model/course_query_model.dart';
 

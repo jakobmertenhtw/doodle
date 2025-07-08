@@ -3,8 +3,9 @@ import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
 import 'package:doodle/features/course/command_model/application/command_handlers/create_course_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/create_course_command.dart';
-import 'package:doodle/features/user/application/api/user_api.dart';
+import 'package:doodle/features/user/api/user_module_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:user_module/user_module.dart';
 
 part 'create_course_event.dart';
 part 'create_course_state.dart';
@@ -12,7 +13,7 @@ part 'create_course_bloc.freezed.dart';
 
 class CreateCourseBloc extends Bloc<CreateCourseEvent, CreateCourseState> {
   final CreateCourseHandler _handler;
-  final UserApi _userApi;
+  final UserModuleApi _userApi;
   CreateCourseBloc(this._handler, this._userApi)
     : super(CreateCourseState.initial()) {
     on<TitleChanged>((event, emit) {
@@ -44,9 +45,17 @@ class CreateCourseBloc extends Bloc<CreateCourseEvent, CreateCourseState> {
         emit(state.copyWith(isSubmitting: false, showValueErrors: true));
         return;
       }
-      CurrentSignedInUser currentUser = await _userApi
-          .getCurrentSignedInUserOrCrash();
-      if (currentUser.userType != CurrentSignedInUserType.teacher) {
+      late User currentUser;
+      final userResult = await _userApi
+          .getCurrentUserOrCrash();
+      userResult.fold((_) {
+        return;
+      }, (user) {
+        currentUser = user;
+      });
+      
+
+      if (currentUser.role != UserRole.teacher) {
         throw Error();
       }
       final command = CreateCourseCommand(
