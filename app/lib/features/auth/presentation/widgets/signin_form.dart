@@ -1,6 +1,4 @@
-import 'package:auth_module/auth_module.dart';
-import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
-import 'package:doodle/features/auth/application/bloc/signin/signin_bloc.dart';
+import 'package:doodle/features/auth/presentation/blocs/signin/signin_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,33 +15,7 @@ class _SigninFormState extends State<SigninForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SigninBloc, SigninState>(
-      listener: (context, state) {
-        state.authFailureOrSuccessOption.fold(
-          () {},
-          (some) {
-            some.fold(
-              (failure) {
-                String message = '';
-                switch (state) {
-                  case InvalidEmailAndPasswordMatch():
-                    message =
-                        'Die E-Mail und Passwort Kombination ist nicht korrekt';
-                    break;
-                  default:
-                    message = 'Es gab einen Fehler';
-                }
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(message)));
-              },
-              (success) {
-                BlocProvider.of<CurrentUserBloc>(context).add(CurrentUserEvent.checkCurrentUser());
-              },
-            );
-          },
-        );
-      },
+    return BlocBuilder<SigninBloc, SigninState>(
       builder: (context, state) {
         if (state.isSubmitting == true) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));

@@ -34,10 +34,13 @@ dependencies:
   build_runner: ^2.5.4
   calendar_module:
     path: ../calendar_module
+  cloud_firestore: ^5.6.11
   course_module:
     path: ../course_module
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
+  ddd_core_module:
+    path: ../ddd_core_module
   dio: ^5.8.0+1
   email_module:
     path: ../email_module

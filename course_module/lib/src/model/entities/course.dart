@@ -1,20 +1,8 @@
 import 'package:course_module/course_module.dart';
-import 'package:course_module/src/error/domain_errors.dart';
-import 'package:course_module/src/event/course_events.dart';
-import 'package:course_module/src/model/entities/learn_content.dart';
-import 'package:course_module/src/model/entities/student.dart';
-import 'package:course_module/src/model/entities/task.dart';
-import 'package:course_module/src/model/entities/teacher.dart';
-import 'package:course_module/src/model/value_objects/course_description.dart';
-import 'package:course_module/src/model/value_objects/course_title.dart';
-import 'package:course_module/src/model/value_objects/learn_content_description.dart';
-import 'package:course_module/src/model/value_objects/learn_content_title.dart';
-import 'package:course_module/src/model/value_objects/taskDescription.dart';
-import 'package:ddd_core_module/entity.dart';
-import 'package:flutter/foundation.dart';
+import 'package:ddd_core_module/ddd_core_module.dart';
 import 'package:uuid/uuid.dart';
 
-class Course extends Entity {
+class Course extends AggregateRoot<CourseEvent> {
   @override
   late String id;
   late CourseTitle title;
@@ -62,18 +50,7 @@ class Course extends Entity {
     return course;
   }
 
-  final List<CourseEvent> _events = [];
 
-  @protected
-  void recordEvent(CourseEvent event) {
-    _events.add(event);
-  }
-
-  List<CourseEvent> pullDomainEvents() {
-    final events = List<CourseEvent>.from(_events);
-    _events.clear();
-    return events;
-  }
 
   List<CourseEvent> addStudent(String studentId) {
     Student studentToAdd = Student(studentId);
@@ -156,6 +133,7 @@ class Course extends Entity {
     return [event];
   }
 
+  @override
   void apply(CourseEvent event) {
     switch (event) {
       case StudentAddedToCourse e:

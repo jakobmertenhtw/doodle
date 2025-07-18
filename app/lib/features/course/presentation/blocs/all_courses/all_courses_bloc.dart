@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:doodle/features/auth/api/doodle_auth_api.dart';
 import 'package:doodle/features/course/read_model/application/dto/course_dto.dart';
 import 'package:doodle/features/course/read_model/application/query_model/course_query_model.dart';
-import 'package:doodle/features/user/api/user_module_api.dart';
+import 'package:doodle/features/user/api/doodle_user_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_module/user_module.dart';
 
@@ -15,11 +16,12 @@ part 'all_courses_bloc.freezed.dart';
 
 class AllCoursesBloc extends Bloc<AllCoursesEvent, AllCoursesState> {
   CourseQueryModel _courseReadModel;
-  UserModuleApi _userApi;
+  DoodleUser _userApi;
+  DoodleAuth _auth;
   StreamSubscription<List<CourseDto>>? _coursesSubscription;
 
 
-  AllCoursesBloc(this._courseReadModel, this._userApi)
+  AllCoursesBloc(this._courseReadModel, this._userApi, this._auth)
     : super(AllCoursesState.inital()) {
       _coursesSubscription = _courseReadModel.onCourses.listen((courses) {
         add(CoursesUpdated(courses));
@@ -30,9 +32,9 @@ class AllCoursesBloc extends Bloc<AllCoursesEvent, AllCoursesState> {
 
       // get the current user and check if teacher or student
       late List<CourseDto> courses;
-
+      final String userId = await _auth.getCurrentSignedInUserIdOrCrash();
       Either<UserFailure, User> result = await _userApi
-          .getCurrentUserOrCrash();
+          .getUserById(userId);
       
       final User currentUser = result.getOrElse(() => throw Error());
       

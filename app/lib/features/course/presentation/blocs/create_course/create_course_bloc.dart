@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
+import 'package:doodle/features/auth/api/doodle_auth_api.dart';
 import 'package:doodle/features/course/command_model/application/command_handlers/create_course_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/create_course_command.dart';
-import 'package:doodle/features/user/api/user_module_api.dart';
+import 'package:doodle/features/user/api/doodle_user_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_module/user_module.dart';
 
@@ -13,8 +14,9 @@ part 'create_course_bloc.freezed.dart';
 
 class CreateCourseBloc extends Bloc<CreateCourseEvent, CreateCourseState> {
   final CreateCourseHandler _handler;
-  final UserModuleApi _userApi;
-  CreateCourseBloc(this._handler, this._userApi)
+  final DoodleUser _userApi;
+  final DoodleAuth _auth;
+  CreateCourseBloc(this._handler, this._userApi, this._auth)
     : super(CreateCourseState.initial()) {
     on<TitleChanged>((event, emit) {
       emit(
@@ -46,8 +48,9 @@ class CreateCourseBloc extends Bloc<CreateCourseEvent, CreateCourseState> {
         return;
       }
       late User currentUser;
+      final String userId = await _auth.getCurrentSignedInUserIdOrCrash();
       final userResult = await _userApi
-          .getCurrentUserOrCrash();
+          .getUserById(userId);
       userResult.fold((_) {
         return;
       }, (user) {

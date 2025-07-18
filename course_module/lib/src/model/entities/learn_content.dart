@@ -2,7 +2,7 @@
 
 import 'package:course_module/src/model/value_objects/learn_content_description.dart';
 import 'package:course_module/src/model/value_objects/learn_content_title.dart';
-import 'package:ddd_core_module/entity.dart';
+import 'package:ddd_core_module/ddd_core_module.dart';
 
 class LearnContent extends Entity {
   @override

@@ -2,7 +2,7 @@
 
 import 'package:course_module/src/event/course_events.dart';
 import 'package:course_module/src/model/value_objects/course_grade.dart';
-import 'package:ddd_core_module/entity.dart';
+import 'package:ddd_core_module/ddd_core_module.dart';
 
 class Student extends Entity {
 

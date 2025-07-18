@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ddd_core_module/value_failure.dart';
-import 'package:ddd_core_module/value_object.dart';
+import 'package:ddd_core_module/ddd_core_module.dart';
 
 class Email extends ValueObject<String> {
   @override

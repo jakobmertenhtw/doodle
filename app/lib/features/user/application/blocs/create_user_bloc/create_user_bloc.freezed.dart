@@ -275,7 +275,7 @@ String toString() {
 /// @nodoc
 mixin _$CreateUserState {
 
- FullName get fullName; DoctoralDegree get doctoralDegree; UserRole get role; bool get showErrorMessages; bool get isSubmitting; Option<Either<UserFailure, Unit>> get failureOrSuccessOption;
+ FullName get fullName; DoctoralDegree get doctoralDegree; UserRole get role; bool get showErrorMessages; bool get isSubmitting;
 /// Create a copy of CreateUserState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -286,16 +286,16 @@ $CreateUserStateCopyWith<CreateUserState> get copyWith => _$CreateUserStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateUserState&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.doctoralDegree, doctoralDegree) || other.doctoralDegree == doctoralDegree)&&(identical(other.role, role) || other.role == role)&&(identical(other.showErrorMessages, showErrorMessages) || other.showErrorMessages == showErrorMessages)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.failureOrSuccessOption, failureOrSuccessOption) || other.failureOrSuccessOption == failureOrSuccessOption));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateUserState&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.doctoralDegree, doctoralDegree) || other.doctoralDegree == doctoralDegree)&&(identical(other.role, role) || other.role == role)&&(identical(other.showErrorMessages, showErrorMessages) || other.showErrorMessages == showErrorMessages)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fullName,doctoralDegree,role,showErrorMessages,isSubmitting,failureOrSuccessOption);
+int get hashCode => Object.hash(runtimeType,fullName,doctoralDegree,role,showErrorMessages,isSubmitting);
 
 @override
 String toString() {
-  return 'CreateUserState(fullName: $fullName, doctoralDegree: $doctoralDegree, role: $role, showErrorMessages: $showErrorMessages, isSubmitting: $isSubmitting, failureOrSuccessOption: $failureOrSuccessOption)';
+  return 'CreateUserState(fullName: $fullName, doctoralDegree: $doctoralDegree, role: $role, showErrorMessages: $showErrorMessages, isSubmitting: $isSubmitting)';
 }
 
 
@@ -306,7 +306,7 @@ abstract mixin class $CreateUserStateCopyWith<$Res>  {
   factory $CreateUserStateCopyWith(CreateUserState value, $Res Function(CreateUserState) _then) = _$CreateUserStateCopyWithImpl;
 @useResult
 $Res call({
- FullName fullName, DoctoralDegree doctoralDegree, UserRole role, bool showErrorMessages, bool isSubmitting, Option<Either<UserFailure, Unit>> failureOrSuccessOption
+ FullName fullName, DoctoralDegree doctoralDegree, UserRole role, bool showErrorMessages, bool isSubmitting
 });
 
 
@@ -323,15 +323,14 @@ class _$CreateUserStateCopyWithImpl<$Res>
 
 /// Create a copy of CreateUserState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? fullName = null,Object? doctoralDegree = null,Object? role = null,Object? showErrorMessages = null,Object? isSubmitting = null,Object? failureOrSuccessOption = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? fullName = null,Object? doctoralDegree = null,Object? role = null,Object? showErrorMessages = null,Object? isSubmitting = null,}) {
   return _then(_self.copyWith(
 fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as FullName,doctoralDegree: null == doctoralDegree ? _self.doctoralDegree : doctoralDegree // ignore: cast_nullable_to_non_nullable
 as DoctoralDegree,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as UserRole,showErrorMessages: null == showErrorMessages ? _self.showErrorMessages : showErrorMessages // ignore: cast_nullable_to_non_nullable
 as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
-as bool,failureOrSuccessOption: null == failureOrSuccessOption ? _self.failureOrSuccessOption : failureOrSuccessOption // ignore: cast_nullable_to_non_nullable
-as Option<Either<UserFailure, Unit>>,
+as bool,
   ));
 }
 
@@ -342,7 +341,7 @@ as Option<Either<UserFailure, Unit>>,
 
 
 class _CreateUserState implements CreateUserState {
-  const _CreateUserState({required this.fullName, required this.doctoralDegree, required this.role, required this.showErrorMessages, required this.isSubmitting, required this.failureOrSuccessOption});
+  const _CreateUserState({required this.fullName, required this.doctoralDegree, required this.role, required this.showErrorMessages, required this.isSubmitting});
   
 
 @override final  FullName fullName;
@@ -350,7 +349,6 @@ class _CreateUserState implements CreateUserState {
 @override final  UserRole role;
 @override final  bool showErrorMessages;
 @override final  bool isSubmitting;
-@override final  Option<Either<UserFailure, Unit>> failureOrSuccessOption;
 
 /// Create a copy of CreateUserState
 /// with the given fields replaced by the non-null parameter values.
@@ -362,16 +360,16 @@ _$CreateUserStateCopyWith<_CreateUserState> get copyWith => __$CreateUserStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateUserState&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.doctoralDegree, doctoralDegree) || other.doctoralDegree == doctoralDegree)&&(identical(other.role, role) || other.role == role)&&(identical(other.showErrorMessages, showErrorMessages) || other.showErrorMessages == showErrorMessages)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.failureOrSuccessOption, failureOrSuccessOption) || other.failureOrSuccessOption == failureOrSuccessOption));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateUserState&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.doctoralDegree, doctoralDegree) || other.doctoralDegree == doctoralDegree)&&(identical(other.role, role) || other.role == role)&&(identical(other.showErrorMessages, showErrorMessages) || other.showErrorMessages == showErrorMessages)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fullName,doctoralDegree,role,showErrorMessages,isSubmitting,failureOrSuccessOption);
+int get hashCode => Object.hash(runtimeType,fullName,doctoralDegree,role,showErrorMessages,isSubmitting);
 
 @override
 String toString() {
-  return 'CreateUserState(fullName: $fullName, doctoralDegree: $doctoralDegree, role: $role, showErrorMessages: $showErrorMessages, isSubmitting: $isSubmitting, failureOrSuccessOption: $failureOrSuccessOption)';
+  return 'CreateUserState(fullName: $fullName, doctoralDegree: $doctoralDegree, role: $role, showErrorMessages: $showErrorMessages, isSubmitting: $isSubmitting)';
 }
 
 
@@ -382,7 +380,7 @@ abstract mixin class _$CreateUserStateCopyWith<$Res> implements $CreateUserState
   factory _$CreateUserStateCopyWith(_CreateUserState value, $Res Function(_CreateUserState) _then) = __$CreateUserStateCopyWithImpl;
 @override @useResult
 $Res call({
- FullName fullName, DoctoralDegree doctoralDegree, UserRole role, bool showErrorMessages, bool isSubmitting, Option<Either<UserFailure, Unit>> failureOrSuccessOption
+ FullName fullName, DoctoralDegree doctoralDegree, UserRole role, bool showErrorMessages, bool isSubmitting
 });
 
 
@@ -399,15 +397,14 @@ class __$CreateUserStateCopyWithImpl<$Res>
 
 /// Create a copy of CreateUserState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? fullName = null,Object? doctoralDegree = null,Object? role = null,Object? showErrorMessages = null,Object? isSubmitting = null,Object? failureOrSuccessOption = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? fullName = null,Object? doctoralDegree = null,Object? role = null,Object? showErrorMessages = null,Object? isSubmitting = null,}) {
   return _then(_CreateUserState(
 fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as FullName,doctoralDegree: null == doctoralDegree ? _self.doctoralDegree : doctoralDegree // ignore: cast_nullable_to_non_nullable
 as DoctoralDegree,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as UserRole,showErrorMessages: null == showErrorMessages ? _self.showErrorMessages : showErrorMessages // ignore: cast_nullable_to_non_nullable
 as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
-as bool,failureOrSuccessOption: null == failureOrSuccessOption ? _self.failureOrSuccessOption : failureOrSuccessOption // ignore: cast_nullable_to_non_nullable
-as Option<Either<UserFailure, Unit>>,
+as bool,
   ));
 }
 

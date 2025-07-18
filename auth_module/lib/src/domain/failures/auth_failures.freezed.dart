@@ -45,38 +45,6 @@ $AuthFailureCopyWith(AuthFailure _, $Res Function(AuthFailure) __);
 /// @nodoc
 
 
-class CancelledByUser implements AuthFailure {
-  const CancelledByUser();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CancelledByUser);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'AuthFailure.cancelledByUser()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
 class ServerError implements AuthFailure {
   const ServerError();
   
@@ -141,8 +109,8 @@ String toString() {
 /// @nodoc
 
 
-class InvalidEmailAndPasswordMatch implements AuthFailure {
-  const InvalidEmailAndPasswordMatch();
+class EmailAndPasswordDoNotMatch implements AuthFailure {
+  const EmailAndPasswordDoNotMatch();
   
 
 
@@ -152,7 +120,7 @@ class InvalidEmailAndPasswordMatch implements AuthFailure {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InvalidEmailAndPasswordMatch);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmailAndPasswordDoNotMatch);
 }
 
 
@@ -161,7 +129,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthFailure.invalidEmailAndPasswordMatch()';
+  return 'AuthFailure.emailAndPasswordDoNotMatch()';
 }
 
 

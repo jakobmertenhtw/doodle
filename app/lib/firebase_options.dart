@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'doodle-4aa98.firebasestorage.app',
     iosBundleId: 'com.example.doodle',
   );
+
 }

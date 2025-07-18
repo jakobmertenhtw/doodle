@@ -1,57 +1,53 @@
-
-
 import 'package:auth_module/auth_module.dart';
-import 'package:auth_module/src/domain/failures/auth_failures.dart';
-import 'package:auth_module/src/domain/repositories/auth_repository.dart';
-import 'package:auth_module/src/domain/value_objects/email.dart';
-import 'package:auth_module/src/domain/value_objects/password.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
-
-
 class FirebaseAuthRepository implements AuthRepository {
-
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  
+
   @override
-  Future<Option<AuthObject>> getCurrentSignedInUser() async {
+  Future<Option<UserCredentials>> getSignedInUser() async {
     final firebaseUser = firebaseAuth.currentUser;
     if (firebaseUser != null && firebaseUser.email != null) {
-      return some(AuthObject(firebaseUser.uid, Email(firebaseUser.email!)));
+      return some(
+        UserCredentials(firebaseUser.uid, Email(firebaseUser.email!)),
+      );
     } else {
       return none();
     }
   }
-  
+
   @override
-  Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(Email email, Password passwort) async {
-    final emailAddressStr = email.value.getOrElse(() => 'KEINE VALIDE E-MAIL-ADDRESSE');
-    final passwordStr = passwort.value.getOrElse(() => 'KEIN VALIDES PASSWORT');
+  Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(
+    Email email,
+    Password passwort,
+  ) async {
+    final emailAddressStr = email.getOrCrash();
+    final passwordStr = passwort.getOrCrash();
     try {
-      return await firebaseAuth
+      return await FirebaseAuth.instance
           .signInWithEmailAndPassword(
             email: emailAddressStr,
             password: passwordStr,
           )
           .then((UserCredential _) => right(unit));
     } on PlatformException catch (e) {
-      if (e.code == 'ERROR_WRONG_PASSWORD' || e.code == 'ERROR_USER_NOT_FOUND') {
-        return left(const AuthFailure.invalidEmailAndPasswordMatch());
+      if (e.code == 'ERROR_WRONG_PASSWORD' ||
+          e.code == 'ERROR_USER_NOT_FOUND') {
+        return left(const AuthFailure.emailAndPasswordDoNotMatch());
       } else {
         return left(const AuthFailure.serverError());
       }
     }
   }
-  
+
   @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
     // TODO: IMPLEMENT
     throw UnsupportedError("not implemented yet");
-
   }
-  
+
   @override
   Future<void> signOut() async {
     await Future.wait([
@@ -59,10 +55,15 @@ class FirebaseAuthRepository implements AuthRepository {
       firebaseAuth.signOut(),
     ]);
   }
-  
+
   @override
-  Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(Email email, Password passwort) async {
-    final emailAddressStr = email.value.getOrElse(() => 'KEINE VALIDE E-MAIL-ADDRESSE');
+  Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(
+    Email email,
+    Password passwort,
+  ) async {
+    final emailAddressStr = email.value.getOrElse(
+      () => 'KEINE VALIDE E-MAIL-ADDRESSE',
+    );
     final passwordStr = passwort.value.getOrElse(() => 'KEIN VALIDES PASSWORT');
     try {
       return await firebaseAuth
@@ -79,6 +80,19 @@ class FirebaseAuthRepository implements AuthRepository {
       }
     }
   }
-
   
+  @override
+  Future<Either<AuthFailure, Unit>> deleteCurrentUser() async {
+    final currentUser = firebaseAuth.currentUser;
+    if (currentUser == null) {
+      throw StateError('deleteCurrentSignedInUser() wurde aufgerufen, aber kein Nutzer ist angemeldet.');
+    }
+    try {
+      await currentUser.delete();
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      return left(AuthFailure.serverError());
+    }
+  }
 }

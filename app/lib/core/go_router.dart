@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
+import 'package:doodle/core/presentation/screens/main_scaffold.dart';
+import 'package:doodle/core/presentation/screens/profile_screen.dart';
 import 'package:doodle/core/presentation/screens/splash_screen.dart';
 import 'package:doodle/features/auth/presentation/screens/signin_screen.dart';
 import 'package:doodle/features/auth/presentation/screens/signup_screen.dart';
@@ -10,19 +12,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class GoRouterWidget extends StatelessWidget {
-  const GoRouterWidget({super.key});
+class GoRouterApp extends StatelessWidget {
+  const GoRouterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-            final router = configureGoRouter(context);
+        final router = configureGoRouter(context);
         return MaterialApp.router(
           title: 'Doodle',
           routerConfig: router,
         );
-      }
+      },
     );
   }
 }
@@ -38,13 +40,17 @@ GoRouter configureGoRouter(BuildContext context) {
       try {
         bloc = BlocProvider.of<CurrentUserBloc>(context, listen: false);
       } catch (_) {
-        return null; // BlocProvider noch nicht verfügbar
+        return null;
       }
+      final shellRoutes = ['/home', '/profile'];
 
       final blocState = bloc.state;
       if (blocState is UnauthenticatedUser) return '/';
       if (blocState is AuthenticatedWithNoAccount) return '/create-user';
-      if (blocState is AuthenticatedWithAccount) return '/home';
+      if (blocState is AuthenticatedWithAccount &&
+          !shellRoutes.contains(stateGo.fullPath)) {
+        return '/home';
+      }
       return null;
     },
     routes: [
@@ -61,9 +67,20 @@ GoRouter configureGoRouter(BuildContext context) {
         path: '/create-user',
         builder: (context, state) => CreateUserScreen(),
       ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => ActiveCoursesScreen(),
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainScaffold(state: state, child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/home',
+            builder: (context, state) => ActiveCoursesScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => ProfileScreen(),
+          ),
+        ],
       ),
     ],
   );

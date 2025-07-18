@@ -6,10 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNutzerMapper {
 
-  static AuthObject? toDomain(User? u) {
+  static UserCredentials? toDomain(User? u) {
     return u == null || u.email == null
         ? null
-        : AuthObject(
+        : UserCredentials(
             u.uid, 
             Email(u.email!),
           );

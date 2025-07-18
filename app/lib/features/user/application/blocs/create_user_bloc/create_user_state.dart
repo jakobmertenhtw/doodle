@@ -9,7 +9,6 @@ abstract class CreateUserState with _$CreateUserState {
     required UserRole role, 
     required bool showErrorMessages, 
     required bool isSubmitting, 
-    required Option<Either<UserFailure, Unit>> failureOrSuccessOption,
   }) = _CreateUserState;
 
   factory CreateUserState.initial() => CreateUserState(
@@ -18,6 +17,5 @@ abstract class CreateUserState with _$CreateUserState {
     showErrorMessages: false, 
     isSubmitting: false, 
     role: UserRole.student,
-    failureOrSuccessOption: none()
   );
 }

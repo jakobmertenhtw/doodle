@@ -77,8 +77,8 @@ String toString() {
 /// @nodoc
 
 
-class SignOut implements CurrentUserEvent {
-  const SignOut();
+class LogoutTriggerReceived implements CurrentUserEvent {
+  const LogoutTriggerReceived();
   
 
 
@@ -88,7 +88,7 @@ class SignOut implements CurrentUserEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignOut);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutTriggerReceived);
 }
 
 
@@ -97,7 +97,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CurrentUserEvent.signOut()';
+  return 'CurrentUserEvent.logoutTriggerReceived()';
 }
 
 
@@ -207,7 +207,7 @@ class AuthenticatedWithNoAccount implements CurrentUserState {
   const AuthenticatedWithNoAccount(this.authObject);
   
 
- final  AuthObject authObject;
+ final  UserCredentials authObject;
 
 /// Create a copy of CurrentUserState
 /// with the given fields replaced by the non-null parameter values.
@@ -239,7 +239,7 @@ abstract mixin class $AuthenticatedWithNoAccountCopyWith<$Res> implements $Curre
   factory $AuthenticatedWithNoAccountCopyWith(AuthenticatedWithNoAccount value, $Res Function(AuthenticatedWithNoAccount) _then) = _$AuthenticatedWithNoAccountCopyWithImpl;
 @useResult
 $Res call({
- AuthObject authObject
+ UserCredentials authObject
 });
 
 
@@ -259,7 +259,7 @@ class _$AuthenticatedWithNoAccountCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? authObject = null,}) {
   return _then(AuthenticatedWithNoAccount(
 null == authObject ? _self.authObject : authObject // ignore: cast_nullable_to_non_nullable
-as AuthObject,
+as UserCredentials,
   ));
 }
 

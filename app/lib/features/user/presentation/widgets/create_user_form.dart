@@ -1,4 +1,3 @@
-import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
 import 'package:doodle/features/user/application/blocs/create_user_bloc/create_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,19 +16,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CreateUserBloc, CreateUserState>(
-      listener: (context, state) {
-        state.failureOrSuccessOption.fold(() {}, (value) {
-          value.fold((failure) {
-            // TODO: specify error messages
-             ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text("Es ist etwas schief gelaufen.")));
-          }, (success) {
-            BlocProvider.of<CurrentUserBloc>(context).add(CurrentUserEvent.checkCurrentUser());
-          });
-        });
-      },
+    return BlocBuilder<CreateUserBloc, CreateUserState>(
       builder: (context, state) {
         return Form(
           autovalidateMode: state.showErrorMessages == true ? AutovalidateMode.always : AutovalidateMode.disabled,

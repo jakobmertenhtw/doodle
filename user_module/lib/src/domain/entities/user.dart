@@ -1,13 +1,11 @@
 
 
-import 'package:ddd_core_module/entity.dart';
-import 'package:user_module/src/domain/value_objects/doctoral_degree.dart';
-import 'package:user_module/src/domain/value_objects/email.dart';
+import 'package:ddd_core_module/ddd_core_module.dart';
 import 'package:user_module/user_module.dart';
 
 enum UserRole {student, teacher}
 
-class User extends Entity {
+class User extends AggregateRoot {
   @override
   final String id;
   FullName name;
@@ -24,6 +22,32 @@ class User extends Entity {
     required this.role, 
     this.doctoralDegree
   });
+
+  factory User({
+    required String id,
+    required FullName name,
+    required Email email,
+    ProfileImage? profileImage,
+    DoctoralDegree? doctoralDegree,
+    required UserRole role,
+  }) {
+    if (role == UserRole.student) {
+      return createStudent(
+        id: id,
+        name: name,
+        email: email,
+        profileImage: profileImage,
+      );
+    } else {
+      return createTeacher(
+        id: id,
+        name: name,
+        email: email,
+        profileImage: profileImage,
+        doctoralDegree: doctoralDegree,
+      );
+    }
+  }
 
   static User createStudent({
     required String id,
@@ -54,6 +78,11 @@ class User extends Entity {
       role: UserRole.teacher,
       doctoralDegree: doctoralDegree,
     );
+  }
+  
+  @override
+  void apply(event) {
+    // TODO: implement apply
   }
 
 }

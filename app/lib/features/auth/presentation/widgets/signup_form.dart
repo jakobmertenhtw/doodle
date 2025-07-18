@@ -1,6 +1,6 @@
 import 'package:auth_module/auth_module.dart';
 import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
-import 'package:doodle/features/auth/application/bloc/signup/signup_bloc.dart';
+import 'package:doodle/features/auth/presentation/blocs/signup/signup_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,32 +17,7 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignupBloc, SignupState>(
-      listener: (context, state) {
-        state.authFailureOrSuccessOption.fold(
-          () {},
-          (some) {
-            some.fold(
-              (failure) {
-                String message = '';
-                switch (state) {
-                  case EmailAlreadyInUse():
-                    message = 'Die E-Mail existiert bereits.';
-                    break;
-                  default:
-                    message = 'Es gab einen Fehler';
-                }
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(message)));
-              },
-              (success) {
-                BlocProvider.of<CurrentUserBloc>(context).add(CurrentUserEvent.checkCurrentUser());
-              },
-            );
-          },
-        );
-      },
+    return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
         if (state.isSubmitting == true) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));

@@ -1,6 +1,7 @@
 
 
-import 'package:ddd_core_module/entity.dart';
+
+import 'package:ddd_core_module/ddd_core_module.dart';
 
 class Teacher extends Entity {
   @override

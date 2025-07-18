@@ -7,5 +7,5 @@ part 'auth_failures.freezed.dart';
 sealed class AuthFailure with _$AuthFailure{
   const factory AuthFailure.serverError() = ServerError;
   const factory AuthFailure.emailAlreadyInUse() = EmailAlreadyInUse;
-  const factory AuthFailure.invalidEmailAndPasswordMatch() = InvalidEmailAndPasswordMatch;
+  const factory AuthFailure.emailAndPasswordDoNotMatch() = EmailAndPasswordDoNotMatch;
 }

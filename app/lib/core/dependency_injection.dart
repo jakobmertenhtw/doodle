@@ -1,10 +1,13 @@
+import 'package:auth_module/auth_module.dart';
 import 'package:dio/dio.dart';
 import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
-import 'package:doodle/features/auth/api/auth_module_api.dart';
-import 'package:doodle/features/auth/application/bloc/signin/signin_bloc.dart';
-import 'package:doodle/features/auth/application/bloc/signup/signup_bloc.dart';
+import 'package:doodle/features/auth/api/doodle_auth_api.dart';
+import 'package:doodle/features/auth/application/services/auth_service.dart';
 import 'package:doodle/features/auth/infrastructure/repositories/firebase_auth_repository.dart';
+import 'package:doodle/features/auth/presentation/blocs/signout/signout_bloc.dart';
+import 'package:doodle/features/auth/presentation/blocs/signin/signin_bloc.dart';
+import 'package:doodle/features/auth/presentation/blocs/signup/signup_bloc.dart';
 import 'package:doodle/features/course/command_model/application/command_handlers/add_student_handler.dart';
 import 'package:doodle/features/course/command_model/application/command_handlers/create_course_handler.dart';
 import 'package:doodle/features/course/command_model/application/command_handlers/remove_student_handler.dart';
@@ -16,8 +19,10 @@ import 'package:doodle/features/course/presentation/blocs/create_course/create_c
 import 'package:doodle/features/course/read_model/infrastructure/datasource/course_read_remote_datasource.dart';
 import 'package:doodle/features/course/read_model/infrastructure/projector/courses_projector.dart';
 import 'package:doodle/features/course/read_model/infrastructure/query_model/mock_course_query_model.dart';
-import 'package:doodle/features/user/api/user_module_api.dart';
+import 'package:doodle/features/user/api/doodle_user_api.dart';
 import 'package:doodle/features/user/application/blocs/create_user_bloc/create_user_bloc.dart';
+import 'package:doodle/features/user/application/handlers/user_deleted_event_handler.dart';
+import 'package:doodle/features/user/application/services/user_service.dart';
 import 'package:doodle/features/user/infrastructure/repositories/user_repository.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,46 +31,100 @@ final locator = GetIt.instance;
 Future<void> setup() async {
   const String apiUrl = 'http.example_api_123456.com/v1';
 
-
   locator.registerLazySingleton(() => Dio());
+
+  // Event Bus
+  locator.registerSingleton(EventBus());
+
+  //final eventBus = locator<EventBus>();
 
   // Auth Module
   locator.registerLazySingleton(() => FirebaseAuthRepository());
-  locator.registerLazySingleton(() => AuthModuleApi(locator<FirebaseAuthRepository>()));
-  locator.registerFactory(() => SigninBloc(locator<FirebaseAuthRepository>()));
-  locator.registerFactory(() => SignupBloc(locator<FirebaseAuthRepository>()));
+  locator.registerLazySingleton(
+    () => AuthService(locator<FirebaseAuthRepository>(), locator<EventBus>()),
+  );
+  locator.registerFactory(() => SigninBloc(locator<AuthService>()));
+  locator.registerFactory(() => SignupBloc(locator<AuthService>()));
+  locator.registerFactory(() => SignoutBloc(locator<AuthService>()));
+  locator.registerFactory(() => DoodleAuth(locator<AuthService>()));
 
   // User Module
-  locator.registerLazySingleton(() => ImplUserRepository());
-  locator.registerLazySingleton(() => UserModuleApi(locator<ImplUserRepository>(), locator<AuthModuleApi>()));
+  locator.registerLazySingleton(() => UserRepositoryImpl());
+  locator.registerLazySingleton(
+    () => UserService(locator<UserRepositoryImpl>(), locator<EventBus>()),
+  );
+  locator.registerLazySingleton(() => DoodleUser(locator<UserService>()));
 
-  locator.registerFactory(() => CurrentUserBloc(locator<FirebaseAuthRepository>(), locator<ImplUserRepository>()));
-  locator.registerFactory(() => CreateUserBloc(locator<ImplUserRepository>(), locator<AuthModuleApi>()));
+  locator.registerFactory(
+    () => CurrentUserBloc(locator<AuthService>(), locator<UserService>(), locator<EventBus>()),
+  );
+  locator.registerFactory(
+    () => CreateUserBloc(locator<UserService>(), locator<DoodleAuth>()),
+  );
 
   // Course Module
-  locator.registerLazySingleton(() => CourseReadRemoteDatasource(locator<Dio>(), apiUrl));
-  locator.registerLazySingleton(() => ImplCourseReadModel(locator<CourseReadRemoteDatasource>()));
-  locator.registerFactory(() => AllCoursesBloc(locator<ImplCourseReadModel>(), locator<UserModuleApi>()));
+  locator.registerLazySingleton(
+    () => CourseReadRemoteDatasource(locator<Dio>(), apiUrl),
+  );
+  locator.registerLazySingleton(
+    () => ImplCourseReadModel(locator<CourseReadRemoteDatasource>()),
+  );
+  locator.registerFactory(
+    () => AllCoursesBloc(
+      locator<ImplCourseReadModel>(),
+      locator<DoodleUser>(),
+      locator<DoodleAuth>(),
+    ),
+  );
 
   // Course Command Model
-  locator.registerLazySingleton(() => InMemoryCourseEventStore()); 
-  locator.registerLazySingleton(() => CourseEventSourcedRepository(locator<InMemoryCourseEventStore>()));
-  
-  locator.registerLazySingleton(() => EventBus());
-  locator.registerLazySingleton(() => CourseEventPublisherImpl(locator<EventBus>()));
+  locator.registerLazySingleton(() => InMemoryCourseEventStore());
+  locator.registerLazySingleton(
+    () => CourseEventSourcedRepository(locator<InMemoryCourseEventStore>()),
+  );
 
-  locator.registerLazySingleton(() => CreateCourseHandler(locator<CourseEventSourcedRepository>(), locator<CourseEventPublisherImpl>()));
-  locator.registerLazySingleton(() => AddStudentHandler(locator<CourseEventSourcedRepository>(), locator<CourseEventPublisherImpl>()));
-  locator.registerLazySingleton(() => RemoveStudentHandler(locator<CourseEventSourcedRepository>(), locator<CourseEventPublisherImpl>()));
+  locator.registerLazySingleton(
+    () => CourseEventPublisherImpl(locator<EventBus>()),
+  );
 
+  locator.registerLazySingleton(
+    () => CreateCourseHandler(
+      locator<CourseEventSourcedRepository>(),
+      locator<CourseEventPublisherImpl>(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => AddStudentHandler(
+      locator<CourseEventSourcedRepository>(),
+      locator<CourseEventPublisherImpl>(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => RemoveStudentHandler(
+      locator<CourseEventSourcedRepository>(),
+      locator<CourseEventPublisherImpl>(),
+    ),
+  );
 
-  locator.registerFactory(() => CreateCourseBloc(locator<CreateCourseHandler>(), locator<UserModuleApi>()));
+  locator.registerFactory(
+    () => CreateCourseBloc(
+      locator<CreateCourseHandler>(),
+      locator<DoodleUser>(),
+      locator<DoodleAuth>(),
+    ),
+  );
 
-  locator.registerLazySingleton(() => CoursesProjector(locator<ImplCourseReadModel>(), locator<InMemoryCourseEventStore>()));
+  locator.registerLazySingleton(
+    () => CoursesProjector(
+      locator<ImplCourseReadModel>(),
+      locator<InMemoryCourseEventStore>(),
+    ),
+  );
 
   // hier wird der CoursesProjector registriert
   locator<CoursesProjector>().register();
 
-
-
+  // Event Bus regsitration
+  locator.registerSingleton(UserDeletedHandler(locator<UserRepositoryImpl>()));
+  locator<EventBus>().register<UserDeleted>(locator<UserDeletedHandler>());
 }
