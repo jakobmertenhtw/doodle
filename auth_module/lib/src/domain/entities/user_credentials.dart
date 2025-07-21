@@ -5,10 +5,10 @@ import 'package:ddd_core_module/ddd_core_module.dart';
 class UserCredentials extends AggregateRoot<AuthEvent> {
   @override
   String id;
-  Email emailAdresse;
-  UserCredentials(this.id, this.emailAdresse);
+  Email emailAdress;
+  UserCredentials(this.id, this.emailAdress);
 
-  UserCredentials._(this.id, this.emailAdresse);
+  UserCredentials._(this.id, this.emailAdress);
 
   List<AuthEvent> signOut() {
     final event = UserLoggedOut();
@@ -30,9 +30,23 @@ class UserCredentials extends AggregateRoot<AuthEvent> {
     apply(event);
     return [event];
   }
+  List<AuthEvent> changeEmail(Email email) {
+    if (!email.isValid()) throw StateError('changeEmail wurde mit invalider E-Mail Adresse aufgerufen');
+    final event = EmailChanged(id, email.getOrCrash());
+    apply(event);
+    return [event];
+  }
 
   @override
   void apply(event) {
+
+    switch (event) {
+      case EmailChanged e:
+        emailAdress = Email(event.email);
+        break;
+      default:
+    }
+
     recordEvent(event);
   }
 }

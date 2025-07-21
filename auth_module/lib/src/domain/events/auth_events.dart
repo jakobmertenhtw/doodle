@@ -9,3 +9,8 @@ class UserDeleted extends AuthEvent {
   final String userId;
   UserDeleted(this.userId);
 }
+class EmailChanged extends AuthEvent {
+  final String userId;
+  final String email;
+  EmailChanged(this.userId, this.email);
+}
