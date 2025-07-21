@@ -16,14 +16,28 @@ class EventBus {
   }
 
   void emit<T>(T event) {
-    final listeners = _handlers[T];
+    _emitInternal(event as Object);
+  }
+
+  void emitList(List<Object> events) {
+    for (final event in events) {
+      _emitInternal(event);
+    }
+  }
+
+  void _emitInternal(Object event) {
+    final type = event.runtimeType;
+
+    final listeners = _handlers[type];
     if (listeners != null) {
       for (final handler in listeners) {
         handler(event);
       }
     }
-    if (_streamControllers[T]?.isClosed != true) {
-      _streamControllers[T]?.add(event);
+
+    final streamController = _streamControllers[type];
+    if (streamController != null && !streamController.isClosed) {
+      streamController.add(event);
     }
   }
 

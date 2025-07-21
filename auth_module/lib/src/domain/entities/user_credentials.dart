@@ -10,8 +10,29 @@ class UserCredentials extends AggregateRoot<AuthEvent> {
 
   UserCredentials._(this.id, this.emailAdresse);
 
+  List<AuthEvent> signOut() {
+    final event = UserLoggedOut();
+    apply(event);
+    return [event];
+  }
+  List<AuthEvent> delete() {
+    final event = UserDeleted(id);
+    apply(event);
+    return [event];
+  }
+  List<AuthEvent> register() {
+    final event = UserRegistered();
+    apply(event);
+    return [event];
+  }
+  List<AuthEvent> login() {
+    final event = UserLoggedIn();
+    apply(event);
+    return [event];
+  }
+
   @override
   void apply(event) {
-    // TODO: implement apply
+    recordEvent(event);
   }
 }

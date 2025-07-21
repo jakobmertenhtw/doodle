@@ -19,7 +19,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(
+  Future<Either<AuthFailure, UserCredentials>> signInUserWithEmailAndPassword(
     Email email,
     Password passwort,
   ) async {
@@ -31,7 +31,14 @@ class FirebaseAuthRepository implements AuthRepository {
             email: emailAddressStr,
             password: passwordStr,
           )
-          .then((UserCredential _) => right(unit));
+          .then((UserCredential userCred) {
+            final user = userCred.user;
+            if (user != null && user.email != null) {
+              return right(UserCredentials(user.uid, Email(user.email!)));
+            } else {
+              return left(AuthFailure.serverError());
+            }
+          });
     } on PlatformException catch (e) {
       if (e.code == 'ERROR_WRONG_PASSWORD' ||
           e.code == 'ERROR_USER_NOT_FOUND') {
@@ -43,12 +50,6 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
-    // TODO: IMPLEMENT
-    throw UnsupportedError("not implemented yet");
-  }
-
-  @override
   Future<void> signOut() async {
     await Future.wait([
       //googleSignIn.signOut(),
@@ -57,7 +58,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(
+  Future<Either<AuthFailure, UserCredentials>> signUpUserWithEmailAndPassword(
     Email email,
     Password passwort,
   ) async {
@@ -71,7 +72,14 @@ class FirebaseAuthRepository implements AuthRepository {
             email: emailAddressStr,
             password: passwordStr,
           )
-          .then((UserCredential _) => right(unit));
+          .then((UserCredential userCred) {
+            final user = userCred.user;
+            if (user != null && user.email != null) {
+              return right(UserCredentials(user.uid, Email(user.email!)));
+            } else {
+              return left(AuthFailure.serverError());
+            }
+          });
     } on PlatformException catch (e) {
       if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
         return left(const AuthFailure.emailAlreadyInUse());

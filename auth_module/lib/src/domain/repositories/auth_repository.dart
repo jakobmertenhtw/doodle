@@ -8,8 +8,8 @@ import 'package:dartz/dartz.dart';
 
 abstract class AuthRepository {
   Future<Option<UserCredentials>> getSignedInUser();
-  Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(Email email, Password passwort);
-  Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(Email email, Password passwort);
+  Future<Either<AuthFailure, UserCredentials>> signInUserWithEmailAndPassword(Email email, Password passwort);
+  Future<Either<AuthFailure, UserCredentials>> signUpUserWithEmailAndPassword(Email email, Password passwort);
   Future<void> signOut();
   Future<Either<AuthFailure, Unit>> deleteCurrentUser();
 }

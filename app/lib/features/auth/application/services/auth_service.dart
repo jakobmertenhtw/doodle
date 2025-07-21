@@ -7,9 +7,17 @@ class AuthService {
   final EventBus _eventBus;
   const AuthService(this._repo, this._eventBus);
   Future<void> signOut() async {
+    final result = await _repo.getSignedInUser();
+    final currentUser = result
+        .getOrElse(
+          () => throw StateError(
+            'deleteCurrentSignedInUser() wurde aufgerufen, aber kein Nutzer ist angemeldet.',
+          ),
+        );
     await _repo.signOut();
-    final event = UserLoggedOut();
-    _eventBus.emit<UserLoggedOut>(event);
+    currentUser.signOut();
+    final events = currentUser.pullDomainEvents();
+    _eventBus.emitList(events);
   }
 
   Future<Either<AuthFailure, Unit>> signInUserWithEmailAndPassword(
@@ -17,13 +25,14 @@ class AuthService {
     Password password,
   ) async {
     final result = await _repo.signInUserWithEmailAndPassword(email, password);
-
-    if (result.isRight()) {
-      final event = UserLoggedIn();
-      _eventBus.emit<UserLoggedIn>(event);
-    }
-
-    return result;
+    return result.fold((failure) {
+      return left(failure);
+    }, (user) {
+      user.login();
+      final events = user.pullDomainEvents();
+      _eventBus.emitList(events);
+      return right(unit);
+    });
   }
 
   Future<Either<AuthFailure, Unit>> signUpUserWithEmailAndPassword(
@@ -31,32 +40,36 @@ class AuthService {
     Password password,
   ) async {
     final result = await _repo.signUpUserWithEmailAndPassword(email, password);
-    if (result.isRight()) {
-      final event = UserRegistered();
-      _eventBus.emit<UserRegistered>(event);
-    }
-    return result;
+    return result.fold((failure) {
+      return left(failure);
+    }, (user) {
+      user.register();
+      final events = user.pullDomainEvents();
+      _eventBus.emitList(events);
+      return right(unit);
+    });
   }
 
   Future<Option<UserCredentials>> getSignedInUser() async =>
       await _repo.getSignedInUser();
+
   Future<void> deleteCurrentSignedInUser() async {
-    final currentUser = await _repo.getSignedInUser();
-    final currentUserId = currentUser
+    final currentUserResult = await _repo.getSignedInUser();
+    final currentUser = currentUserResult
         .getOrElse(
           () => throw StateError(
             'deleteCurrentSignedInUser() wurde aufgerufen, aber kein Nutzer ist angemeldet.',
           ),
-        )
-        .id;
+        );
     final result = await _repo.deleteCurrentUser();
     result.fold(
       (failure) {
         // TODO: show error message to the user
       },
       (_) {
-        final event = UserDeleted(currentUserId);
-        _eventBus.emit<UserDeleted>(event);
+        currentUser.delete();
+        final events = currentUser.pullDomainEvents();
+        _eventBus.emitList(events);
       },
     );
   }
