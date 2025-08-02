@@ -16,7 +16,7 @@ class DoodleAuth {
     final result = await _authService.getSignedInUser();
     return result.fold(
       () => throw StateError('getCurrentSignedInUserIdOrCrash() wurde aufgerufen, aber kein Nutzer ist angemeldet.'),
-      (credentials) => credentials.emailAdresse.getOrCrash()
+      (credentials) => credentials.emailAdress.getOrCrash()
     ); 
   }
 }
