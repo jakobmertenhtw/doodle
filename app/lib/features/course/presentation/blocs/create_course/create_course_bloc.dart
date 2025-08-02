@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
 import 'package:doodle/features/auth/api/doodle_auth_api.dart';
-import 'package:doodle/features/course/command_model/application/command_handlers/create_course_handler.dart';
+import 'package:doodle/features/course/command_model/application/command_handler/create_course_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/create_course_command.dart';
 import 'package:doodle/features/user/api/doodle_user_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

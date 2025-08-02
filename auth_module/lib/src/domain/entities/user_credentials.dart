@@ -10,6 +10,14 @@ class UserCredentials extends AggregateRoot<AuthEvent> {
 
   UserCredentials._(this.id, this.emailAdress);
 
+  static UserCredentials create(String id, Email email) {
+    if (!email.isValid()) {
+      throw StateError('Ungültige E-Mail-Adresse beim Erstellen von UserCredentials.');
+    }
+    final user = UserCredentials._(id, email);
+    return user;
+  }
+
   List<AuthEvent> signOut() {
     final event = UserLoggedOut();
     apply(event);
@@ -39,14 +47,11 @@ class UserCredentials extends AggregateRoot<AuthEvent> {
 
   @override
   void apply(event) {
-
     switch (event) {
       case EmailChanged e:
         emailAdress = Email(event.email);
         break;
       default:
     }
-
-    recordEvent(event);
   }
 }

@@ -15,8 +15,7 @@ class AuthService {
           ),
         );
     await _repo.signOut();
-    currentUser.signOut();
-    final events = currentUser.pullDomainEvents();
+    final events = currentUser.signOut();
     _eventBus.emitList(events);
   }
 
@@ -28,8 +27,7 @@ class AuthService {
     return result.fold((failure) {
       return left(failure);
     }, (user) {
-      user.login();
-      final events = user.pullDomainEvents();
+      final events = user.login();
       _eventBus.emitList(events);
       return right(unit);
     });
@@ -43,8 +41,7 @@ class AuthService {
     return result.fold((failure) {
       return left(failure);
     }, (user) {
-      user.register();
-      final events = user.pullDomainEvents();
+      final events = user.register();
       _eventBus.emitList(events);
       return right(unit);
     });
@@ -67,8 +64,7 @@ class AuthService {
         // TODO: show error message to the user
       },
       (_) {
-        currentUser.delete();
-        final events = currentUser.pullDomainEvents();
+        final events = currentUser.delete();
         _eventBus.emitList(events);
       },
     );

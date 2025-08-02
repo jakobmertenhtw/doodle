@@ -34,7 +34,7 @@ class FirebaseAuthRepository implements AuthRepository {
           .then((UserCredential userCred) {
             final user = userCred.user;
             if (user != null && user.email != null) {
-              return right(UserCredentials(user.uid, Email(user.email!)));
+              return right(UserCredentials.create(user.uid, Email(user.email!)));
             } else {
               return left(AuthFailure.serverError());
             }
@@ -75,7 +75,7 @@ class FirebaseAuthRepository implements AuthRepository {
           .then((UserCredential userCred) {
             final user = userCred.user;
             if (user != null && user.email != null) {
-              return right(UserCredentials(user.uid, Email(user.email!)));
+              return right(UserCredentials.create(user.uid, Email(user.email!)));
             } else {
               return left(AuthFailure.serverError());
             }

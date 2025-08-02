@@ -8,17 +8,17 @@ import 'package:doodle/features/auth/infrastructure/repositories/firebase_auth_r
 import 'package:doodle/features/auth/presentation/blocs/signout/signout_bloc.dart';
 import 'package:doodle/features/auth/presentation/blocs/signin/signin_bloc.dart';
 import 'package:doodle/features/auth/presentation/blocs/signup/signup_bloc.dart';
-import 'package:doodle/features/course/command_model/application/command_handlers/add_student_handler.dart';
-import 'package:doodle/features/course/command_model/application/command_handlers/create_course_handler.dart';
-import 'package:doodle/features/course/command_model/application/command_handlers/remove_student_handler.dart';
-import 'package:doodle/features/course/command_model/infrastructure/event_publisher/course_event_publisher.dart';
+import 'package:doodle/features/course/command_model/application/command_handler/add_student_handler.dart';
+import 'package:doodle/features/course/command_model/application/command_handler/create_course_handler.dart';
+import 'package:doodle/features/course/command_model/application/command_handler/remove_student_handler.dart';
 import 'package:doodle/features/course/command_model/infrastructure/event_stores/in_memory_course_event_store.dart';
 import 'package:doodle/features/course/command_model/infrastructure/repositories/course_event_sourced_repository.dart';
 import 'package:doodle/features/course/presentation/blocs/all_courses/all_courses_bloc.dart';
 import 'package:doodle/features/course/presentation/blocs/create_course/create_course_bloc.dart';
+import 'package:doodle/features/course/read_model/infrastructure/datasource/course_read_local_datasource.dart';
 import 'package:doodle/features/course/read_model/infrastructure/datasource/course_read_remote_datasource.dart';
 import 'package:doodle/features/course/read_model/infrastructure/projector/courses_projector.dart';
-import 'package:doodle/features/course/read_model/infrastructure/query_model/mock_course_query_model.dart';
+import 'package:doodle/features/course/read_model/infrastructure/query_model/course_query_model.dart';
 import 'package:doodle/features/user/api/doodle_user_api.dart';
 import 'package:doodle/features/user/application/blocs/create_user_bloc/create_user_bloc.dart';
 import 'package:doodle/features/user/application/handlers/user_deleted_event_handler.dart';
@@ -66,12 +66,13 @@ Future<void> setup() async {
   locator.registerLazySingleton(
     () => CourseReadRemoteDatasource(locator<Dio>(), apiUrl),
   );
+  locator.registerLazySingleton(() => CourseReadLocalDatasource());
   locator.registerLazySingleton(
-    () => ImplCourseReadModel(locator<CourseReadRemoteDatasource>()),
+    () => ImplCourseQueryModel(locator<CourseReadRemoteDatasource>(), locator<CourseReadLocalDatasource>()),
   );
   locator.registerFactory(
     () => AllCoursesBloc(
-      locator<ImplCourseReadModel>(),
+      locator<ImplCourseQueryModel>(),
       locator<DoodleUser>(),
       locator<DoodleAuth>(),
     ),
@@ -84,25 +85,20 @@ Future<void> setup() async {
   );
 
   locator.registerLazySingleton(
-    () => CourseEventPublisherImpl(locator<EventBus>()),
-  );
-
-  locator.registerLazySingleton(
     () => CreateCourseHandler(
       locator<CourseEventSourcedRepository>(),
-      locator<CourseEventPublisherImpl>(),
     ),
   );
   locator.registerLazySingleton(
     () => AddStudentHandler(
       locator<CourseEventSourcedRepository>(),
-      locator<CourseEventPublisherImpl>(),
+      locator<EventBus>(),
     ),
   );
   locator.registerLazySingleton(
     () => RemoveStudentHandler(
-      locator<CourseEventSourcedRepository>(),
-      locator<CourseEventPublisherImpl>(),
+      locator<CourseEventSourcedRepository>(), 
+      locator<EventBus>()
     ),
   );
 
@@ -116,8 +112,10 @@ Future<void> setup() async {
 
   locator.registerLazySingleton(
     () => CoursesProjector(
-      locator<ImplCourseReadModel>(),
+      locator<ImplCourseQueryModel>(),
       locator<InMemoryCourseEventStore>(),
+      locator<DoodleAuth>(), 
+      locator<DoodleUser>()
     ),
   );
 

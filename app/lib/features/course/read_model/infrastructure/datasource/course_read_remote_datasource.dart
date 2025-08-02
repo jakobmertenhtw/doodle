@@ -25,12 +25,6 @@ class CourseReadRemoteDatasource {
     } catch (_) {
       rethrow;
     }
-    // try {
-    //   final result = await _dioApiClient.get('$_apiUrl/student/course/$id');
-    //   return result.data.map((json) => CourseStudentDto.fromJson(json)).toList();
-    // } catch (_) {
-    //   rethrow;
-    // }
   }
 
   Future<List<CourseTeacherDto>> getCoursesForTeacherById(String id) async {
