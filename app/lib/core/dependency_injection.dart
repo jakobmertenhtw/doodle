@@ -1,6 +1,5 @@
 import 'package:auth_module/auth_module.dart';
 import 'package:dio/dio.dart';
-import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/core/presentation/blocs/current_user_bloc.dart';
 import 'package:doodle/features/auth/api/doodle_auth_api.dart';
 import 'package:doodle/features/auth/application/services/auth_service.dart';
@@ -24,24 +23,21 @@ import 'package:doodle/features/user/application/blocs/create_user_bloc/create_u
 import 'package:doodle/features/user/application/handlers/user_deleted_event_handler.dart';
 import 'package:doodle/features/user/application/services/user_service.dart';
 import 'package:doodle/features/user/infrastructure/repositories/user_repository.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;
 
 Future<void> setup() async {
   const String apiUrl = 'http.example_api_123456.com/v1';
+  EventBus eventBus = EventBus();
 
   locator.registerLazySingleton(() => Dio());
-
-  // Event Bus
-  locator.registerSingleton(EventBus());
-
-  //final eventBus = locator<EventBus>();
 
   // Auth Module
   locator.registerLazySingleton(() => FirebaseAuthRepository());
   locator.registerLazySingleton(
-    () => AuthService(locator<FirebaseAuthRepository>(), locator<EventBus>()),
+    () => AuthService(locator<FirebaseAuthRepository>(), eventBus),
   );
   locator.registerFactory(() => SigninBloc(locator<AuthService>()));
   locator.registerFactory(() => SignupBloc(locator<AuthService>()));
@@ -51,12 +47,12 @@ Future<void> setup() async {
   // User Module
   locator.registerLazySingleton(() => UserRepositoryImpl());
   locator.registerLazySingleton(
-    () => UserService(locator<UserRepositoryImpl>(), locator<EventBus>()),
+    () => UserService(locator<UserRepositoryImpl>(), eventBus),
   );
   locator.registerLazySingleton(() => DoodleUser(locator<UserService>()));
 
   locator.registerFactory(
-    () => CurrentUserBloc(locator<AuthService>(), locator<UserService>(), locator<EventBus>()),
+    () => CurrentUserBloc(locator<AuthService>(), locator<UserService>(), eventBus),
   );
   locator.registerFactory(
     () => CreateUserBloc(locator<UserService>(), locator<DoodleAuth>()),
@@ -92,13 +88,13 @@ Future<void> setup() async {
   locator.registerLazySingleton(
     () => AddStudentHandler(
       locator<CourseEventSourcedRepository>(),
-      locator<EventBus>(),
+      eventBus
     ),
   );
   locator.registerLazySingleton(
     () => RemoveStudentHandler(
       locator<CourseEventSourcedRepository>(), 
-      locator<EventBus>()
+      eventBus
     ),
   );
 
@@ -123,6 +119,5 @@ Future<void> setup() async {
   locator<CoursesProjector>().register();
 
   // Event Bus regsitration
-  locator.registerSingleton(UserDeletedHandler(locator<UserRepositoryImpl>()));
-  locator<EventBus>().register<UserDeleted>(locator<UserDeletedHandler>());
+  locator.registerSingleton(UserDeletedListener(locator<UserRepositoryImpl>(), eventBus));
 }

@@ -3,7 +3,6 @@
 
 import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/features/course/command_model/application/command_handler/command_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/create_course_command.dart';
 

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:auth_module/auth_module.dart';
 import 'package:bloc/bloc.dart';
-import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/features/auth/application/services/auth_service.dart';
 import 'package:doodle/features/user/application/services/user_service.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_module/user_module.dart';
 

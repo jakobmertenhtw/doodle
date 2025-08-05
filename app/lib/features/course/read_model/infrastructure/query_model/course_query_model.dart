@@ -15,9 +15,13 @@ class ImplCourseQueryModel implements CourseQueryModel {
   @override
   Future<List<CourseStudentDto>> byStudentId(String studentId) async {
     if (_isOnline()) {
-      return await _remoteDatasource.getCoursesForStudentById(studentId);
+      final result = await _remoteDatasource.getCoursesForStudentById(studentId);
+      courses = result;
+      return result;
     } else {
-      return await _localDatasource.getCoursesForStudentById(studentId);
+      final result = await _localDatasource.getCoursesForStudentById(studentId);
+      courses = result;
+      return result;
     }
   }
   bool _isOnline() {
@@ -26,7 +30,15 @@ class ImplCourseQueryModel implements CourseQueryModel {
 
   @override
   Future<List<CourseTeacherDto>> byTeacherId(String teacherId) async {
-    throw UnimplementedError();
+    if (_isOnline()) {
+      final result = await _remoteDatasource.getCoursesForTeacherById(teacherId);
+      courses = result;
+      return result;
+    } else {
+      final result = await _remoteDatasource.getCoursesForTeacherById(teacherId);
+      courses = result;
+      return await _localDatasource.getCoursesForTeacherById(teacherId);
+    }
   }
 
   @override

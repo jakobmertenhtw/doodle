@@ -1,8 +1,8 @@
 import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/features/course/command_model/application/command_handler/command_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/remove_student_command.dart';
+import 'package:event_bus/event_bus.dart';
 
 class RemoveStudentHandler
     implements CommandHandler<RemoveStudentCommand, CourseFailure> {
@@ -21,7 +21,9 @@ class RemoveStudentHandler
       (course) => course,
     );
     List<CourseEvent> events = course.removeStudent(command.studentId);
-    _eventBus.emitList(events);
+    for (final event in events) {
+      _eventBus.fire(event);
+    }
     return await _repo.save(course);
   }
 }

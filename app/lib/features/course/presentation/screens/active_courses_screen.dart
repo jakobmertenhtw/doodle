@@ -21,15 +21,17 @@ class ActiveCoursesScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is AuthenticatedWithAccount &&
                   state.user.role == UserRole.teacher) {
-                return ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CreateCourseScreen(),
-                      ),
-                    );
-                  },
-                  child: Text("Create new course"),
+                return SafeArea(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CreateCourseScreen(),
+                        ),
+                      );
+                    },
+                    child: Text("Create new course"),
+                  ),
                 );
               }
               return Container();

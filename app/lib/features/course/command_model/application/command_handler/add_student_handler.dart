@@ -1,8 +1,8 @@
 import 'package:course_module/course_module.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doodle/core/event_bus.dart';
 import 'package:doodle/features/course/command_model/application/command_handler/command_handler.dart';
 import 'package:doodle/features/course/command_model/application/commands/add_student_command.dart';
+import 'package:event_bus/event_bus.dart';
 
 class AddStudentHandler
     implements CommandHandler<AddStudentCommand, CourseFailure> {
@@ -15,7 +15,9 @@ class AddStudentHandler
     if (result.isLeft()) return result.fold((failure) => left(failure), (_) => throw Error());
     final course = result.getOrElse(() => throw Error());
     List<CourseEvent> events = course.addStudent(command.studentId);
-    _eventBus.emitList(events);
+    for (final event in events) {
+      _eventBus.fire(event);
+    }
     return await _repo.save(course);
   }
 }

@@ -7,6 +7,9 @@ class CourseReadLocalDatasource {
   Future<List<CourseStudentDto>> getCoursesForStudentById(String id) async {
     return [];
   }
+  Future<List<CourseTeacherDto>> getCoursesForTeacherById(String id) async {
+    return [];
+  }
 
 }
 

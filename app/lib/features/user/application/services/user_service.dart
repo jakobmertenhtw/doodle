@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:doodle/core/event_bus.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:user_module/user_module.dart';
 
 class UserService {
@@ -17,7 +17,7 @@ class UserService {
       // TODO: Error handling
     }, (_) {
       final event = UserCreated(userId: user.id);
-      _eventBus.emit<UserCreated>(event);
+      _eventBus.fire(event);
     });
 
     return result;
