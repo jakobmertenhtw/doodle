@@ -5,6 +5,7 @@ Dieses Repository enthält den Quellcode für die mobile Anwendung "Doodle", die
 ## Softwarepaket (Was?)
 Die Software ist eine prototypische mobile Anwendung namens Doodle, entwickelt mit dem Flutter-Framework. Sie dient als praktische Fallstudie zur Umsetzung der Prinzipien des Domain-Driven Design in der Cross-Plattform-App-Entwicklung.
 
+Das Projekt wurde exemplarisch entwickelt, um die in der Bachelorarbeit aufgestellten theoretischen Konzepte praktisch zu erproben. Es handelt sich nicht um eine fertig entwickelte Anwendung. Der primäre Fokus lag auf der Architektur und der Umsetzung der DDD-Muster.
 Die App simuliert eine Lernplattform, die Dozenten und Studierende bei Organisation und Kommunikation unterstützt. Kernfunktionen umfassen:
 
 - Lehrmanagement: Erstellen von Kursen, Bereitstellen von Materialien, Verwalten von Aufgaben und Noten.
@@ -12,6 +13,7 @@ Die App simuliert eine Lernplattform, die Dozenten und Studierende bei Organisat
 - Kalender- & E-Mail-Integration: Planung von Terminen und Kommunikation.
 
 Die Architektur der Anwendung ist modular aufgebaut und nutzt für verschiedene fachliche Kontexte (Bounded Contexts) unterschiedliche Architekturmuster wie die klassische Schichtenarchitektur und Command Query Responsibility Segregation (CQRS) in Kombination mit Event Sourcing.
+Einige der geplanten Bounded Contexts, wie Calendar, Email oder Task wurden im Rahmen dieser praktischen Umsetzung nicht entwickelt. Andere Bounded Contexts, wie Course oder User wurden nur teilweise umgesetzt.
 
 Sprache des Quellcodes: Englisch (Variablen, Klassennamen, Kommentare)
 Sprache der Dokumentation: Deutsch
@@ -67,7 +69,7 @@ Für die Entwicklung und Implementierung wurden folgende Technologien und Werkze
 Die Architektur wurde so entworfen, dass eine hohe Testbarkeit gewährleistet ist. Insbesondere die Domänenlogik ist vollständig von Flutter und Infrastruktur-Komponenten entkoppelt und in reinen Dart-Paketen gekapselt. Dies ermöglicht es, die Geschäftsregeln mit isolierten, automatisierten Unit-Tests zu überprüfen und die Korrektheit der Kernlogik sicherzustellen.
 
 ## Datenschutz
-Bei der entwickelten Anwendung handelt es sich um einen Prototyp zu Demonstrationszwecken. Es werden keine echten personenbezogenen Daten verarbeitet oder gespeichert. Die Nutzerauthentifizierung über Firebase ist rein exemplarisch und nutzt keine realen Nutzerkonten.
+Bei der entwickelten Anwendung handelt es sich um einen Prototyp zu Demonstrationszwecken. Die Nutzerdaten werden in Firebase exemplarisch gespeichert. 
 
 Der vollständige Quellcode ist in diesem GitHub-Repository abgelegt. Die Struktur orientiert sich an den Prinzipien des Domain-Driven Design und ist wie folgt aufgebaut:
 
