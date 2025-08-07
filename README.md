@@ -71,6 +71,7 @@ Bei der entwickelten Anwendung handelt es sich um einen Prototyp zu Demonstratio
 
 Der vollständige Quellcode ist in diesem GitHub-Repository abgelegt. Die Struktur orientiert sich an den Prinzipien des Domain-Driven Design und ist wie folgt aufgebaut:
 
+```text
 doodle/
 ├── app/                  # Die Flutter-Anwendung
 │   └── lib/              # Dart Code
@@ -89,3 +90,4 @@ doodle/
 ├── task_module/          # Eigenständiges Dart-Paket für den Course Bounded Context
 ├── email_module/         # Eigenständiges Dart-Paket für den Email Bounded Context
 ├── calendar_module/      # Eigenständiges Dart-Paket für den Calendar Bounded Context
+```
