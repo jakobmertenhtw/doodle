@@ -64,10 +64,6 @@ Für die Entwicklung und Implementierung wurden folgende Technologien und Werkze
     - dio: Für HTTP-Anfragen.
     - firebase_auth: Für die Integration mit Firebase Authentication
 
-
-## Qualitätssicherung
-Die Architektur wurde so entworfen, dass eine hohe Testbarkeit gewährleistet ist. Insbesondere die Domänenlogik ist vollständig von Flutter und Infrastruktur-Komponenten entkoppelt und in reinen Dart-Paketen gekapselt. Dies ermöglicht es, die Geschäftsregeln mit isolierten, automatisierten Unit-Tests zu überprüfen und die Korrektheit der Kernlogik sicherzustellen.
-
 ## Datenschutz
 Bei der entwickelten Anwendung handelt es sich um einen Prototyp zu Demonstrationszwecken. Die Nutzerdaten werden in Firebase exemplarisch gespeichert. 
 
